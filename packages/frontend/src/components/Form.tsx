@@ -1,8 +1,24 @@
 // @react
-import React from "react";
+import React, { useState } from "react";
 
 // @mui
-import { Button, TextField, Box, Typography, Container } from "@mui/material";
+import {
+	Button,
+	TextField,
+	Box,
+	Typography,
+	Container,
+	Paper,
+	Card,
+	CardActionArea,
+	CardContent,
+} from "@mui/material";
+import { Grid } from "@material-ui/core";
+
+export interface Validation {
+	result: string;
+	message: string;
+}
 
 /**
  * @function Form
@@ -10,6 +26,9 @@ import { Button, TextField, Box, Typography, Container } from "@mui/material";
  * @returns React
  */
 export const Form = () => {
+	// Keep track of a validation object using local state
+	const [validation, setValidation] = useState<null | Validation>(null);
+
 	// Submission handler
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -36,7 +55,12 @@ export const Form = () => {
 				<Typography component="h1" variant="h5">
 					Validate Credentials
 				</Typography>
-				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+				<Box
+					component="form"
+					onSubmit={handleSubmit}
+					noValidate
+					sx={{ mt: 1, width: 320 }}
+				>
 					<TextField
 						margin="normal"
 						required
@@ -85,6 +109,26 @@ export const Form = () => {
 					>
 						Check Credentials
 					</Button>
+
+					{/* Credential check outcome */}
+					{validation && (
+						<Paper>
+							<Grid item md={3}>
+								<CardContent>
+									<Typography variant="h5" component="div">
+										{validation.result}
+									</Typography>
+									<Typography
+										sx={{ fontSize: 14 }}
+										color="text.secondary"
+										gutterBottom
+									>
+										{validation.message}
+									</Typography>
+								</CardContent>
+							</Grid>
+						</Paper>
+					)}
 				</Box>
 			</Box>
 		</Container>

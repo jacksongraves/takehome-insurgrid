@@ -10,6 +10,7 @@ import {
 	AccordionSummary,
 	AccordionDetails,
 	Box,
+	Button,
 	Divider,
 	ListItemText,
 	MenuItem,
@@ -80,21 +81,62 @@ export const List = () => {
 	const onClick = (id: number) => {
 		console.log("noOp", id);
 	};
+
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		console.log("noOp");
+	};
+
 	const menuItems = (items: Carrier[]) =>
 		items.map(({ name, id }: Carrier) => {
 			return (
-				<MenuItem key={Math.random()} onClick={(e) => onClick(id)}>
+				<MenuItem
+					sx={{ p: 3 }}
+					key={Math.random()}
+					onClick={(e) => onClick(id)}
+				>
 					<ListItemText>{id}</ListItemText>
 					<ListItemText>{name}</ListItemText>
 				</MenuItem>
 			);
 		});
 
+	// JSX
 	return (
 		<Fragment>
-			<Paper sx={{ width: 320, maxWidth: "100%" }}>
-				<MenuList>{menuItems(carriers)}</MenuList>
-			</Paper>
+			<Container component="main" maxWidth="xs">
+				<Box
+					sx={{
+						marginTop: 8,
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+					}}
+				>
+					<Typography component="h1" variant="h5">
+						Insurance Carriers
+					</Typography>
+
+					<Box
+						component="form"
+						onSubmit={handleSubmit}
+						noValidate
+						sx={{ width: 320 }}
+					>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+						>
+							Update Carrier List
+						</Button>
+						<Paper>
+							<MenuList>{menuItems(carriers)}</MenuList>
+						</Paper>
+					</Box>
+				</Box>
+			</Container>
 		</Fragment>
 	);
 };
