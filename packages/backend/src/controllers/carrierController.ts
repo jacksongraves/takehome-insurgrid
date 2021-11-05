@@ -10,6 +10,10 @@ import expressAsyncHandler from "express-async-handler";
 // Import any required JSON models (TBD)
 import carriers from "../data/carriers.json";
 
+// @functions
+// Import any custom functions and additional business logic better handled apart from API controllers and routes. May not be the most elegant pattern, but could help keep codebase cleaner with tons of unique authentication flows etc.
+import { validate } from "../validation";
+
 /**
  * GET /carrier
  * @throws {Error}
@@ -28,5 +32,32 @@ export const getCarriers = expressAsyncHandler(
 		// } catch (error) {
 		// 	throw error;
 		// }
+	}
+);
+
+/**
+ * POST /carrier/:carrier_id
+ * @throws {Error}
+ * @return {Promise}
+ */
+export const validateCredentials = expressAsyncHandler(
+	async (req: Request, res: Response): Promise<void> => {
+		// Logging flag for initially debugging the API
+		console.log("POST /carrier/:carrier_id");
+
+		const { carrier_id } = req.params;
+
+		const carrierId: number = Number(carrier_id);
+
+		try {
+			validate(carrierId);
+
+			const code: number = 200;
+			const response: object = carriers;
+
+			res.status(code).json(response);
+		} catch (error) {
+			throw error;
+		}
 	}
 );

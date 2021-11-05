@@ -1,37 +1,44 @@
 [
 	{
 		"name": "Progressive",
+		"id": 1,
 		"image": "",
 		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
 	},
 	{
-		"name": "Progressive",
+		"name": "State Farm",
+		"id": 2,
 		"image": "",
-		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
+		"login": "https://www.statefarm.com/"
 	},
 	{
-		"name": "Progressive",
+		"name": "Geico",
+		"id": 3,
 		"image": "",
-		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
+		"login": "https://ecams.geico.com/login"
 	},
 	{
-		"name": "Progressive",
+		"name": "Liberty Mutual",
+		"id": 4,
 		"image": "",
-		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
+		"login": "https://eservice.libertymutual.com/login/"
 	},
 	{
-		"name": "Progressive",
+		"name": "Lemonade",
+		"id": 5,
 		"image": "",
-		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
+		"login": "https://www.lemonade.com/login#email"
 	},
 	{
-		"name": "Progressive",
+		"name": "USAA",
+		"id": 6,
 		"image": "",
-		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
+		"login": "https://www.usaa.com/my/logon?logoffjump=true&wa_ref=pub_global_log_on"
 	},
 	{
-		"name": "Progressive",
+		"name": "Nationwide",
+		"id": 7,
 		"image": "",
-		"login": "https://account.apps.progressive.com/access/login?cntgrp=A"
+		"login": "https://www.nationwide.com/personal/login"
 	}
 ]
