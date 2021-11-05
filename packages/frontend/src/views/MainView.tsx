@@ -2,11 +2,24 @@
 import "./MainView.css";
 
 // @react
-import React, { Fragment } from "react";
+import React, { Fragment, createContext, useState } from "react";
 
 // @mui
 import { Box } from "@mui/material";
 import { Grid } from "@material-ui/core";
+
+//
+// For sharing selected carrier between the sibling List & Form
+const initialContext: {
+	carrier: number | null;
+	setCarrier: React.Dispatch<React.SetStateAction<number | null>>;
+} = {
+	carrier: null,
+	setCarrier: () => {
+		/* set state */
+	},
+};
+export const CarrierContext = createContext(initialContext);
 
 // @components
 import { Form, List } from "../components";
@@ -16,8 +29,9 @@ import { Form, List } from "../components";
  * @returns React
  */
 export const MainView = (): JSX.Element => {
+	const [carrier, setCarrier] = useState<number | null>(null);
 	return (
-		<Fragment>
+		<CarrierContext.Provider value={{ carrier, setCarrier }}>
 			<Box sx={{ width: "100%" }}>
 				<Grid container justifyContent="center" spacing={10}>
 					<Grid item md={3}>
@@ -29,6 +43,6 @@ export const MainView = (): JSX.Element => {
 				</Grid>
 				{/* <CarrierList /> */}
 			</Box>
-		</Fragment>
+		</CarrierContext.Provider>
 	);
 };

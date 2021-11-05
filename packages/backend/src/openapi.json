@@ -1,0 +1,159 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "takehome-insurgrid"
+	},
+	"servers": [
+		{
+			"url": "localhost:5000"
+		}
+	],
+	"paths": {
+		"/api/carrier": {
+			"get": {
+				"summary": "Retrieves a list of carriers",
+				"operationId": "getCarriers",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/Carriers"
+					},
+					"default": {
+						"description": "unexpected error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/carrier/{carrier_id}": {
+			"post": {
+				"summary": "Attempts to validate credentials for a given carrier",
+				"operationId": "validateCredentials",
+				"parameters": [
+					{
+						"description": "An ObjectID or UUID for a carrier, per the appropriate database schema",
+						"in": "path",
+						"name": "carrier_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"$ref": "#/componenents/requestBodies/Credentials"
+				},
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/Validation"
+					},
+					"default": {
+						"description": "unexpected error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"requestBodies": {
+			"Credentials": {
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/Credentials"
+						}
+					}
+				},
+				"description": "Authentication payload containing user credentials"
+			}
+		},
+		"responses": {
+			"Carriers": {
+				"description": "A list of carriers",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/Carriers"
+						}
+					}
+				}
+			},
+			"Validation": {
+				"description": "A validation message indicating whether user authentication was successful",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/Validation"
+						}
+					}
+				}
+			}
+		},
+		"schemas": {
+			"Credentials": {
+				"type": "object",
+				"required": ["email", "password"],
+				"properties": {
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					}
+				}
+			},
+			"Carrier": {
+				"type": "object",
+				"required": ["name", "image", "url"],
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					}
+				}
+			},
+			"Carriers": {
+				"type": "array",
+				"items": {
+					"$ref": "#/components/schemas/Carrier"
+				}
+			},
+			"Validation": {
+				"type": "object",
+				"required": ["result", "message"],
+				"properties": {
+					"result": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,5 +1,5 @@
 // @react
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 
 // @mui
 import {
@@ -14,6 +14,10 @@ import {
 } from "@mui/material";
 import { CarrierAPI } from "../apis";
 
+// @context
+import { CarrierContext } from "../views";
+
+// @types
 export interface Carrier {
 	name: string;
 	id: number;
@@ -29,7 +33,8 @@ export interface Carrier {
 export const List = (): JSX.Element => {
 	// Make use of local state to keep track of carriers and which one is active
 	const [carriers, setCarriers] = useState<Carrier[]>([]);
-	const [activeCarrier, setActiveCarrier] = useState<number | null>(null);
+	// const [activeCarrier, setActiveCarrier] = useState<number | null>(null);
+	const { carrier, setCarrier } = useContext(CarrierContext);
 
 	// Retrieve an updated list of carriers
 	const updateCarriers = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +44,7 @@ export const List = (): JSX.Element => {
 	};
 
 	// When a carrier is selected, set it to active
-	const onClick = (id: number) => setActiveCarrier(id);
+	const onClick = (id: number) => setCarrier(id);
 
 	// List renderer to aid in uniquely rendering carriers
 	const menuItems = (items: Carrier[]) =>
@@ -50,7 +55,7 @@ export const List = (): JSX.Element => {
 					key={Math.random()}
 					onClick={() => onClick(id)}
 					style={{
-						backgroundColor: activeCarrier === id ? "#ddd" : "",
+						backgroundColor: carrier === id ? "#ddd" : "",
 					}}
 				>
 					<ListItemText>{id}</ListItemText>

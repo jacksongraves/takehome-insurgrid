@@ -1,5 +1,5 @@
 // @react
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 // @axios
 import { CarrierAPI } from "../apis";
@@ -16,6 +16,9 @@ import {
 } from "@mui/material";
 import { Grid } from "@material-ui/core";
 
+// @context
+import { CarrierContext } from "../views";
+
 export interface Validation {
 	result: string;
 	message: string;
@@ -27,8 +30,9 @@ export interface Validation {
  * @returns React
  */
 export const Form = (): JSX.Element => {
-	// Keep track of a validation object using local state
+	// Keep track of a validation object using local state (& context for shared sibling state)
 	const [validation, setValidation] = useState<null | Validation>(null);
+	const { carrier: carrier_id } = useContext(CarrierContext);
 
 	// Submission handler
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -62,15 +66,18 @@ export const Form = (): JSX.Element => {
 		}
 
 		// Attempt to retrieve validation from the API
-		const { data: validation } = await CarrierAPI.post<Validation>(
-			`/${1}`,
-			request
-		);
+		if (carrier_id) {
+			const { data: validation } = await CarrierAPI.post<Validation>(
+				`/${carrier_id}`,
+				request
+			);
 
-		console.log(validation);
-
-		// Update validation state
-		setValidation(validation);
+			// Update validation state
+			setValidation(validation);
+		} else {
+			// Update the validation state
+			setValidation({ message: "Select a carrier first", result: "error" });
+		}
 	};
 
 	// JSX
