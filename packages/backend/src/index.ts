@@ -48,21 +48,14 @@ if (process.env.USE_PROXY) {
 		})
 	);
 }
-//
-// else {
-// 	// Not good practice; works for local development, because we can traverse the relative path from `local-api` to `local-client` package, but better practice is to (sym)link to the actual package.
-// 	// app.use(express.static("../../local-client/build"));
 
-// 	// Also not good practice: we aren't guaranteed to have the same relative path for node_modules, and express does not handle symlinks well.
-// 	// app.use(express.static("../node_modules/local-client/build"));
-
-// 	// A workaround for express.static using path module, but this will likely only work on a client machine
-// 	// NOTE: Because we are using this as an npm_module via an organization, need to ensure the relative path indicates that!
-// 	const packagePath = require.resolve(
-// 		"@jsnote-jrg/local-client/build/index.html"
-// 	);
-// 	app.use(express.static(path.dirname(packagePath)));
-// }
-
-// Launch the server and listen on target port
 app.listen(PORT, listener);
+
+process.once("SIGUSR2", function () {
+	process.kill(process.pid, "SIGUSR2");
+});
+
+process.on("SIGINT", function () {
+	// this is only called on ctrl+c, not restart
+	process.kill(process.pid, "SIGINT");
+});

@@ -12,8 +12,6 @@ import {
 	Typography,
 	Container,
 	Paper,
-	Card,
-	CardActionArea,
 	CardContent,
 } from "@mui/material";
 import { Grid } from "@material-ui/core";
@@ -28,15 +26,16 @@ export interface Validation {
  * @description Form for inputting user credentials and submitting to see if credentials are valid.
  * @returns React
  */
-export const Form = () => {
+export const Form = (): JSX.Element => {
 	// Keep track of a validation object using local state
 	const [validation, setValidation] = useState<null | Validation>(null);
 
 	// Submission handler
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
 
+		// Get user credentials from the form
+		const data = new FormData(event.currentTarget);
 		const request = {
 			email: data.get("email"),
 			password: data.get("password"),
@@ -44,11 +43,13 @@ export const Form = () => {
 			username: data.get("username"),
 		};
 
+		// Error check on the client side to ensure we have a password
 		if (!request.password) {
 			setValidation({ result: "Error", message: "Missing Password" });
 			return;
 		}
 
+		// Error check on the client side to ensure we have at least one other identifier
 		if (
 			[request.email, request.name, request.username].filter((x) => x)
 				.length === 0
@@ -60,11 +61,15 @@ export const Form = () => {
 			return;
 		}
 
+		// Attempt to retrieve validation from the API
 		const { data: validation } = await CarrierAPI.post<Validation>(
 			`/${1}`,
 			request
 		);
 
+		console.log(validation);
+
+		// Update validation state
 		setValidation(validation);
 	};
 

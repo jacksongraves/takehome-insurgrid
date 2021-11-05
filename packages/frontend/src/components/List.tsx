@@ -26,7 +26,7 @@ export interface Carrier {
  * @description Provides a control to retrieve carriers, displays an empty list if none retrieved / none available, and if carriers are present, populates the list with click handlers.
  * @returns React
  */
-export const List = () => {
+export const List = (): JSX.Element => {
 	// Make use of local state to keep track of carriers and which one is active
 	const [carriers, setCarriers] = useState<Carrier[]>([]);
 	const [activeCarrier, setActiveCarrier] = useState<number | null>(null);
@@ -48,7 +48,7 @@ export const List = () => {
 				<MenuItem
 					sx={{ p: 3 }}
 					key={Math.random()}
-					onClick={(e) => onClick(id)}
+					onClick={() => onClick(id)}
 					style={{
 						backgroundColor: activeCarrier === id ? "#ddd" : "",
 					}}

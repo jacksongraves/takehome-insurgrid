@@ -9,7 +9,7 @@ import { Typography, Container, Link, Box } from "@mui/material";
  * @description A footer component with a ref to email me if questions
  * @returns React
  */
-export const Footer = () => {
+export const Footer = (): JSX.Element => {
 	return (
 		<Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
 			<Container maxWidth="lg">

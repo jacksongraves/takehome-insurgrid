@@ -8,7 +8,7 @@ import { AppBar, Box, Toolbar, Typography } from "@mui/material";
  * @function Header
  * @description A basic Material UI header adapted from MUI <AppBar />
  */
-export const Header = () => {
+export const Header = (): JSX.Element => {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static" color="default" elevation={0}>

@@ -6,7 +6,7 @@ import React, { Fragment } from "react";
 
 // @mui
 import { Box } from "@mui/material";
-import { Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 // @components
 import { Form, List } from "../components";
@@ -15,11 +15,11 @@ import { Form, List } from "../components";
  * @description The main body view for the app
  * @returns React
  */
-export const MainView = () => {
+export const MainView = (): JSX.Element => {
 	return (
 		<Fragment>
 			<Box sx={{ width: "100%" }}>
-				<Grid container justify="center" spacing={10}>
+				<Grid container justifyContent="center" spacing={10}>
 					<Grid item md={3}>
 						<List />
 					</Grid>

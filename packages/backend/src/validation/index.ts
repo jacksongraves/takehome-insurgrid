@@ -31,12 +31,12 @@ export interface Credentials {
  * @param credentials.username A user's username, optional
  * @returns A validation object indicating success or error, and any useful debug message
  */
-export const validate = (
+export const validate = async (
 	carrierId: number,
 	credentials: Credentials
-): Validation => {
+): Promise<Validation> => {
 	// Create a pointer for validation outcome
-	const validation: Validation = {
+	let validation: Validation = {
 		result: "success",
 		message: "",
 	};
@@ -49,7 +49,7 @@ export const validate = (
 		switch (carrierId) {
 			case 1:
 				if (username && password) {
-					validateProgressive(username, password);
+					validation = await validateProgressive(username, password);
 				} else {
 					throw "Username and / or password not provided";
 				}

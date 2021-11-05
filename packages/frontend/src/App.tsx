@@ -14,7 +14,7 @@ import { Header, Footer } from "./components";
  * App is the basic component that holds the views and components
  * @returns React
  */
-export const App = () => (
+export const App = (): JSX.Element => (
 	<Fragment>
 		<Header />
 		<MainView />

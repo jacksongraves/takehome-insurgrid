@@ -63,13 +63,13 @@ export const validateCredentials = expressAsyncHandler(
 		}
 
 		// Attempt to validate the user credentials
-		const { result, message } = validate(carrierId, credentials);
+		const { result, message } = await validate(carrierId, credentials);
 
 		// Check if an application error was received
-		let code: number = 200;
-		if (result === "error") {
-			code = 400;
-		}
+		const code: number = 200;
+		// if (result === "error") {
+		// 	code = 400;
+		// }
 
 		// Send the response to the user
 		const response: Validation = { result, message };
