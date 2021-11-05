@@ -3,12 +3,11 @@ import express from "express";
 import { config } from "dotenv";
 config();
 
-// Route & middleware imports
+// @routes
 import routes from "./routes";
-// import { errorMiddleware, notFoundMiddleware } from "./middlewares";
 
-console.log("Hello world!123");
-const t = 2;
+// @middlewares
+import { errorMiddleware } from "./middlewares";
 
 const app = express();
 
@@ -25,7 +24,7 @@ app.use("/api", routes);
 
 // Specify middleware for global not found (404) and other error handling
 // app.use(notFoundMiddleware);
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 // Grab the port
 const PORT: number = parseInt(process.env.PORT || "5001") || 5001;
