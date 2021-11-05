@@ -1,6 +1,9 @@
 // @react
 import React, { useState } from "react";
 
+// @axios
+import { CarrierAPI } from "../apis";
+
 // @mui
 import {
 	Button,
@@ -30,15 +33,36 @@ export const Form = () => {
 	const [validation, setValidation] = useState<null | Validation>(null);
 
 	// Submission handler
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
+		const request = {
 			email: data.get("email"),
 			password: data.get("password"),
 			name: data.get("name"),
 			username: data.get("username"),
-		});
+		};
+
+		if (!request.password) {
+			setValidation({ result: "Error", message: "Missing Password" });
+			return;
+		}
+
+		if (
+			[request.email, request.name, request.username].filter((x) => x)
+				.length === 0
+		) {
+			setValidation({
+				result: "Error",
+				message: "Need at least one of email, name, or username",
+			});
+			return;
+		}
+
+		const validation = await CarrierAPI.post(
+			`http://localhost:5001/api/carrier/${1}`,
+			request
+		);
 	};
 
 	// JSX

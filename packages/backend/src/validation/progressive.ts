@@ -1,5 +1,3 @@
-import axios from "axios";
-
 /**
  * @function validateProgressive
  * @description Attempts to validate the user credentials for the Progressive workflow
@@ -8,14 +6,17 @@ import axios from "axios";
  * @throws {Error}
  * @returns {void}
  */
-export const validateProgressive = (username: string, password: string): void => {
+export const validateProgressive = (
+	username: string,
+	password: string
+): void => {
 	console.log("noOp");
 	console.log("Attempting to validate Progressive");
 	console.log(`User ID: ${username} Password: ${password}`);
 
 	try {
 		// TODO perform validation workflow
-	} catch (error) {
-		throw error?.message || error || "Unknown error";
+	} catch (error: unknown) {
+		throw error || "Unknown error";
 	}
 };
