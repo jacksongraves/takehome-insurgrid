@@ -1,22 +1,18 @@
 // @react
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 // @mui
 import {
 	Container,
-	Grid,
 	Typography,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
 	Box,
 	Button,
-	Divider,
 	ListItemText,
 	MenuItem,
 	MenuList,
 	Paper,
 } from "@mui/material";
+import { CarrierAPI } from "../apis";
 
 export interface Carrier {
 	name: string;
@@ -25,68 +21,27 @@ export interface Carrier {
 	login: string;
 }
 
-// Temporary data until connected to API
-const carriers: Carrier[] = [
-	{
-		name: "Progressive",
-		id: 1,
-		image: "",
-		login: "https://account.apps.progressive.com/access/login?cntgrp=A",
-	},
-	{
-		name: "State Farm",
-		id: 2,
-		image: "",
-		login: "https://www.statefarm.com/",
-	},
-	{
-		name: "Geico",
-		id: 3,
-		image: "",
-		login: "https://ecams.geico.com/login",
-	},
-	{
-		name: "Liberty Mutual",
-		id: 4,
-		image: "",
-		login: "https://eservice.libertymutual.com/login/",
-	},
-	{
-		name: "Lemonade",
-		id: 5,
-		image: "",
-		login: "https://www.lemonade.com/login#email",
-	},
-	{
-		name: "USAA",
-		id: 6,
-		image: "",
-		login:
-			"https://www.usaa.com/my/logon?logoffjump=true&wa_ref=pub_global_log_on",
-	},
-	{
-		name: "Nationwide",
-		id: 7,
-		image: "",
-		login: "https://www.nationwide.com/personal/login",
-	},
-];
-
 /**
  * @function List
  * @description Provides a control to retrieve carriers, displays an empty list if none retrieved / none available, and if carriers are present, populates the list with click handlers.
  * @returns React
  */
 export const List = () => {
-	const onClick = (id: number) => {
-		console.log("noOp", id);
-	};
+	// Make use of local state to keep track of carriers and which one is active
+	const [carriers, setCarriers] = useState<Carrier[]>([]);
+	const [activeCarrier, setActiveCarrier] = useState<number | null>(null);
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	// Retrieve an updated list of carriers
+	const updateCarriers = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log("noOp");
+		const { data: _carriers } = await CarrierAPI.get<Carrier[]>("/");
+		setCarriers(_carriers || []);
 	};
 
+	// When a carrier is selected, set it to active
+	const onClick = (id: number) => setActiveCarrier(id);
+
+	// List renderer to aid in uniquely rendering carriers
 	const menuItems = (items: Carrier[]) =>
 		items.map(({ name, id }: Carrier) => {
 			return (
@@ -94,6 +49,9 @@ export const List = () => {
 					sx={{ p: 3 }}
 					key={Math.random()}
 					onClick={(e) => onClick(id)}
+					style={{
+						backgroundColor: activeCarrier === id ? "#ddd" : "",
+					}}
 				>
 					<ListItemText>{id}</ListItemText>
 					<ListItemText>{name}</ListItemText>
@@ -119,7 +77,7 @@ export const List = () => {
 
 					<Box
 						component="form"
-						onSubmit={handleSubmit}
+						onSubmit={updateCarriers}
 						noValidate
 						sx={{ width: 320 }}
 					>
@@ -131,9 +89,13 @@ export const List = () => {
 						>
 							Update Carrier List
 						</Button>
-						<Paper>
-							<MenuList>{menuItems(carriers)}</MenuList>
-						</Paper>
+						{carriers.length ? (
+							<Paper>
+								<MenuList>{menuItems(carriers)}</MenuList>
+							</Paper>
+						) : (
+							""
+						)}
 					</Box>
 				</Box>
 			</Container>

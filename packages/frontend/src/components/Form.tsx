@@ -36,6 +36,7 @@ export const Form = () => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
+
 		const request = {
 			email: data.get("email"),
 			password: data.get("password"),
@@ -59,10 +60,12 @@ export const Form = () => {
 			return;
 		}
 
-		const validation = await CarrierAPI.post(
-			`http://localhost:5001/api/carrier/${1}`,
+		const { data: validation } = await CarrierAPI.post<Validation>(
+			`/${1}`,
 			request
 		);
+
+		setValidation(validation);
 	};
 
 	// JSX
@@ -137,7 +140,7 @@ export const Form = () => {
 					{/* Credential check outcome */}
 					{validation && (
 						<Paper>
-							<Grid item md={3}>
+							<Grid item>
 								<CardContent>
 									<Typography variant="h5" component="div">
 										{validation.result}
