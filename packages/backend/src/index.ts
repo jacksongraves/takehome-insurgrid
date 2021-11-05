@@ -5,3 +5,4 @@ import { config } from "dotenv";
 config();
 
 console.log("Hello world!123");
+const t = 2;
