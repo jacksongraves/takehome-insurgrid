@@ -8,6 +8,7 @@ import expressAsyncHandler from "express-async-handler";
 
 // @data[json]
 // Import any required JSON models (TBD)
+import carriers from "../data/carriers.json";
 
 /**
  * GET /carrier
@@ -21,7 +22,7 @@ export const getCarriers = expressAsyncHandler(
 
 		// try {
 		const code: number = 200;
-		const response: object = { message: "success" };
+		const response: object = carriers;
 
 		res.status(code).json(response);
 		// } catch (error) {
