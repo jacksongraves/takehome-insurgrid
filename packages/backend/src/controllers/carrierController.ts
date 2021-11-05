@@ -12,7 +12,7 @@ import carriers from "../data/carriers.json";
 
 // @functions
 // Import any custom functions and additional business logic better handled apart from API controllers and routes. May not be the most elegant pattern, but could help keep codebase cleaner with tons of unique authentication flows etc.
-import { validate } from "../validation";
+import { Credentials, validate, Validation } from "../validation";
 
 /**
  * GET /carrier
@@ -45,15 +45,20 @@ export const validateCredentials = expressAsyncHandler(
 		// Logging flag for initially debugging the API
 		console.log("POST /carrier/:carrier_id");
 
-		const { carrier_id } = req.params;
-
-		const carrierId: number = Number(carrier_id);
-
 		try {
-			validate(carrierId);
+			// Extract the carrier_id from the request URL path, and coerce it to a Number
+			const { carrier_id } = req.params;
+			const carrierId: number = Number(carrier_id);
+
+			// Extract the user credentials; this de / re structuring may be an antipattern, but could be refactored to force the API to throw an error before attempting to validate if the user has supplied incorrect data
+			const { password, email, username, name }: Credentials = req.body;
+			const credentials: Credentials = { password, email, username, name };
+
+			// Attempt to validate the user credentials
+			const { result, message } = validate(carrierId, credentials);
 
 			const code: number = 200;
-			const response: object = carriers;
+			const response: Validation = { result, message };
 
 			res.status(code).json(response);
 		} catch (error) {
