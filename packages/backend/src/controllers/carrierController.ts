@@ -58,6 +58,10 @@ export const validateCredentials = expressAsyncHandler(
 		if (!password) {
 			throw "Missing password";
 		}
+
+		// if (!(email || username || name)) {
+		// 	throw;
+		// }
 		if ([email, username, name].filter((x) => x).length === 0) {
 			throw "Missing at least one of email, username, name";
 		}
